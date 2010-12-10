@@ -304,7 +304,7 @@ module Technoweenie # :nodoc:
 
       # Returns true if the attachment data will be written to the storage system on the next save
       def save_attachment?
-        File.file?(temp_path.to_filename)
+        File.file?(temp_path.class == String ? temp_path : temp_path.to_filename)
       end
 
       # nil placeholder in case this field is used in a form.
