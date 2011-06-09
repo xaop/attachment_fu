@@ -1,6 +1,6 @@
 require 'tempfile'
 require 'active_record'
-require 'active_support'
+require 'active_support/dependencies'
 
 Tempfile.class_eval do
   # overwrite so tempfiles use the extension of the basename.  important for rmagick and image science
