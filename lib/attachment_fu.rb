@@ -1,5 +1,6 @@
 require 'tempfile'
 require 'active_record'
+require 'active_support'
 
 Tempfile.class_eval do
   # overwrite so tempfiles use the extension of the basename.  important for rmagick and image science
@@ -12,6 +13,7 @@ end
 require 'geometry'
 
 require 'technoweenie/attachment_fu'
+
 
 ActiveSupport::Dependencies.autoload_paths << File.dirname(__FILE__)
 
