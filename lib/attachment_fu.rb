@@ -4,7 +4,7 @@ require 'active_support/dependencies'
 require 'geometry'
 require 'technoweenie/attachment_fu'
 
-#if RUBY_VERSION < '1.9'
+if RUBY_VERSION < '1.9'
   Tempfile.class_eval do
     # overwrite so tempfiles use the extension of the basename.  important for rmagick and image science
     def make_tmpname(basename, n)
@@ -12,7 +12,7 @@ require 'technoweenie/attachment_fu'
       sprintf("%s%d-%d%s", basename.to_s.gsub(/\.\w+$/) {  |s| ext = s; '' }, $$, n.to_i, ext)
     end
   end
-#end
+end
 
 ActiveSupport::Dependencies.autoload_paths << File.dirname(__FILE__)
 
