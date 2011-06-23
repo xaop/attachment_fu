@@ -166,9 +166,10 @@ module Technoweenie # :nodoc:
       delegate :content_types, :to => Technoweenie::AttachmentFu
 
       # Performs common validations for attachment models.
-      def validates_as_attachment
+      def validates_as_attachment(options = {})
         validates_presence_of :size, :content_type, :filename
         validate              :attachment_attributes_valid?
+	@attachment_error_messages = options[:error_messages] || {}
       end
 
       # Returns true or false if the given content type is recognized as an image.
@@ -436,7 +437,9 @@ module Technoweenie # :nodoc:
           [:size, :content_type].each do |attr_name|
             enum = attachment_options[attr_name]
             if Object.const_defined?(:I18n) # Rails >= 2.2
-              errors.add attr_name, I18n.translate("activerecord.errors.messages.inclusion", attr_name => enum) unless enum.nil? || enum.include?(send(attr_name))
+              # errors.add attr_name, I18n.translate("activerecord.errors.messages.inclusion", attr_name => enum) unless enum.nil? || enum.include?(send(attr_name))
+	      error_message = self.class.instance_eval("@attachment_error_messages")[attr_name] || I18n.translate("activerecord.errors.messages.inclusion", attr_name => enum)
+              errors.add attr_name, error_message unless enum.nil? || enum.include?(send(attr_name))
             else
               errors.add attr_name, ActiveRecord::Errors.default_error_messages[:inclusion] unless enum.nil? || enum.include?(send(attr_name))
             end
